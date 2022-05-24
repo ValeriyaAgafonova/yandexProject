@@ -5,6 +5,7 @@ import BurgerCard from '../BurgerCard/BurgerCard'
 import PropTypes from 'prop-types';
 
 const BurgerIngredients = (props) => {
+  console.log(props)
   let typeBunArray = [];
   let typeMainArray = [];
   let typeSauceArray = [];
