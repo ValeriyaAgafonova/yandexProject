@@ -5,6 +5,7 @@ li{
     justify-content: center;
 align-items: center;
 text-align: center;
+position: relative;
 }
 .price{
    display: flex;

@@ -1,14 +1,26 @@
 import React from 'react';
 import Styles from './BurgerIngredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import data from '../../utils/data';
 import BurgerCard from '../BurgerCard/BurgerCard'
+import PropTypes from 'prop-types';
 
-const BurgerIngredients = () => {
+const BurgerIngredients = (props) => {
+  let typeBunArray = [];
+  let typeMainArray = [];
+  let typeSauceArray = [];
+
+  for (let item in props){
+if (props[item].type === 'bun'){
+  typeBunArray.push(props[item])
+}
+else if(props[item].type === 'main'){
+  typeMainArray.push(props[item])
+}
+else{
+  typeSauceArray.push(props[item])
+}
+  }
     const [current, setCurrent] = React.useState('Булки');
-    const typeBunArray = data.filter((item) => item.type === 'bun')
-    const typeMainArray = data.filter((item)=> item.type === 'main');
-    const typeSauceArray = data.filter((item) => item.type === 'sauce');
     const bunItems = typeBunArray.map((item, index)=>(
        <BurgerCard  key={item._id} item={item}/>
       ));
@@ -50,5 +62,19 @@ const BurgerIngredients = () => {
        </div>
     )
 
+}
+BurgerIngredients.propTypes = {
+  calories: PropTypes.number,
+carbohydrates: PropTypes.number,
+fat: PropTypes.number,
+image: PropTypes.string,
+image_large: PropTypes.string,
+image_mobile: PropTypes.string,
+name: PropTypes.string,
+price: PropTypes.number,
+proteins: PropTypes.number,
+type: PropTypes.string,
+__v: PropTypes.number,
+_id: PropTypes.string,
 }
 export default React.memo(BurgerIngredients);
