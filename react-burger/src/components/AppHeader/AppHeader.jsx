@@ -14,7 +14,7 @@ const AppHeader = () => {
 <a href="#"> <ListIcon type="secondary" /><p className="text text_type_main-default text_color_inactive"> Лента заказов</p></a>
             </div>
             <Logo />
-            <a href="#"><ProfileIcon type="secondary" /><p className="text text_type_main-default text_color_inactive">Личный кабинет</p></a>
+            <a href="#" className={Styles.right}><ProfileIcon type="secondary" /><p className="text text_type_main-default text_color_inactive">Личный кабинет</p></a>
         </header>
     )
 
