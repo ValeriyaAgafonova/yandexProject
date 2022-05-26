@@ -1,0 +1,21 @@
+.ingredientDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+row-gap: 30px;
+}
+.head{
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+.table{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 50px 50px;
+    margin-top: 20px;
+}
+p{
+    text-align: center;
+}

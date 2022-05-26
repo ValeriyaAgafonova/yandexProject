@@ -8,20 +8,21 @@ import { useState } from 'react';
 // import data from '../../utils/data';
 
 
-const App =() => {
-  
-const [state, setState] = useState({
-  isLoading: false,
-  hasError: false,
-  data: []
-});
-useEffect(() => {
-  getIngredients();
-}, []);
+function App() {
 
+  const [state, setState] = useState({
+    isLoading: false,
+    hasError: false,
+    data: []
+  });
+  useEffect(() => {
+    getIngredients();
+  }, []);
+
+  
   const getIngredients = () => {
-    const url = 'https://norma.nomoreparties.space/api/ingredients'
-   
+    const url = 'https://norma.nomoreparties.space/api/ingredients';
+
     setState({ ...state, hasError: false, isLoading: true });
     fetch(url)
       .then(res => res.json())
@@ -31,24 +32,25 @@ useEffect(() => {
       });
   };
 
-  
-    const { data, isLoading, hasError } = state;
- 
+
+  const { data, isLoading, hasError } = state;
+
   return (
-    <div className={Styles.App}>
-       <AppHeader/>
-        {isLoading && 'Загрузка...'}
-        {hasError && 'Произошла ошибка'}
-        {!isLoading &&
-          !hasError &&
-          data.length &&
-          <div>
-    <div className={Styles.main}>
-      <BurgerIngredients {...data}/>
-      <BurgerConstructor {...data}/>
-    </div>
-    </div>
-}
+    <div className={Styles.App} id='app'>
+      <AppHeader />
+      {isLoading && 'Загрузка...'}
+      {hasError && 'Произошла ошибка'}
+      {!isLoading &&
+        !hasError &&
+        data.length &&
+        <div>
+          <div className={Styles.main}>
+            <BurgerIngredients {...data} />
+            <BurgerConstructor {...data} />
+          </div>
+        </div>
+        }
+       
 
     </div>
   );

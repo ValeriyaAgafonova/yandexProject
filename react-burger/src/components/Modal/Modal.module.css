@@ -1,0 +1,19 @@
+.modal{
+    width: 720px;
+    height: 718px;
+    border-radius: 50px;
+    background-color: black;
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.close{
+    position: absolute;
+    right: 50px;
+    top: 50px;
+    cursor: pointer;
+}

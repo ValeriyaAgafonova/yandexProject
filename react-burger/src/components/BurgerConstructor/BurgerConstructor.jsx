@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Styles from './BurgerConstructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import Modal from '../Modal/Modal';
 
 const BurgerConstructor = (props) => {
-let items = []
+  const [state, setState] = useState(false);
+
+  let items = []
 for (let item in props){
   items.push(props[item])
 }
-console.log(items)
+
+const showModal = () => {
+  setState(state === true ? false : true);
+  console.log(state)
+}
+
+
+
     return(
         <div className={Styles.right}>
              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -18,7 +28,7 @@ console.log(items)
         type="top"
         isLocked={true}
         text="Краторная булка N-200i (верх)"
-        price={200}
+        price={1255}
         thumbnail={props[0].image}
       />
       <div className={`${Styles.ingredients} custom-scroll`}>
@@ -35,17 +45,20 @@ console.log(items)
         type="bottom"
         isLocked={true}
         text="Краторная булка N-200i (низ)"
-        price={200}
+        price={1255}
         thumbnail={props[0].image}
       />
     </div>
     <div className={Styles.amount}>
         <p className="text text_type_digits-medium">12342 <CurrencyIcon type="primary"/></p>
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={showModal}>
   Оформить заказ
 </Button>
     </div>
+    {state && 
+    <Modal content={'order'}/>}
         </div>
+
     )
 
 }
