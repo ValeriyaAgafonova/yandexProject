@@ -1,10 +1,8 @@
 import React from "react";
 import Styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
 import ingredientTypes from "../../utils/types";
 
 const IngredientDetails = (props) => {
-    console.log(props)
   return (
     <div className={Styles.ingredientDetails}>
       <h3 className={`${Styles.head} text text_type_main-large`}>
@@ -42,6 +40,6 @@ const IngredientDetails = (props) => {
   );
 };
 IngredientDetails.propTypes = {
- card: ingredientTypes
+  card: ingredientTypes,
 };
 export default IngredientDetails;

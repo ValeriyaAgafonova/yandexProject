@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import ingredientTypes from "../../utils/types";
 
 const BurgerIngredients = (props) => {
-
   const typeBunArray = [];
   const typeMainArray = [];
   const typeSauceArray = [];
@@ -63,6 +62,6 @@ const BurgerIngredients = (props) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientTypes)
+  ingredients: PropTypes.arrayOf(ingredientTypes),
 };
 export default React.memo(BurgerIngredients);

@@ -3,21 +3,23 @@ import Styles from "./Modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ReactDOM from "react-dom";
-
 import PropTypes from "prop-types";
 
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
   const closeModal = () => {
-      return props.onClose()
-  }
+    return props.onClose();
+  };
   React.useEffect(() => {
     const onClick = (e) => {
-     console.log(e.target.localName)
-       if(e.target.id === 'modalOverlay' || e.target.localName === 'path' || e.target.localName === 'svg'){
-            return props.onClose()
-        }
+      if (
+        e.target.id === "modalOverlay" ||
+        e.target.localName === "path" ||
+        e.target.localName === "svg"
+      ) {
+        return props.onClose();
+      }
     };
     document.addEventListener("click", onClick);
     return () => {
@@ -25,14 +27,10 @@ const Modal = (props) => {
     };
   }, []);
 
-
   React.useEffect(() => {
     const onKeypress = (e) => {
-      if (
-        e.key === "Escape"
-      ) {
-        console.log(e.key)
-        return props.onClose()
+      if (e.key === "Escape") {
+        return props.onClose();
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -45,8 +43,8 @@ const Modal = (props) => {
     <>
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
-        <div className={Styles.close} >
-          <CloseIcon type="primary" onClick={closeModal}/>
+        <div className={Styles.close}>
+          <CloseIcon type="primary" onClick={closeModal} />
         </div>
         {props.children}
       </div>
@@ -54,7 +52,7 @@ const Modal = (props) => {
     container
   );
 };
-
-
-
+Modal.propTypes = {
+  onClose: PropTypes.func,
+};
 export default Modal;
