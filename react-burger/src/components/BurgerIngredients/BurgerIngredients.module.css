@@ -13,3 +13,9 @@ li{
     height: 75vh;
     overflow-x: hidden;
 }
+.head{
+    margin: 60px 0 20px;
+}
+.menu{
+    display: flex;
+}

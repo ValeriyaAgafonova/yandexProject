@@ -1,79 +1,87 @@
-import React, { useState } from 'react';
-import Styles from './BurgerConstructor.module.css';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import Modal from '../Modal/Modal';
+import React, { useState } from "react";
+import Styles from "./BurgerConstructor.module.css";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import Modal from "../Modal/Modal";
+import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ingredientTypes from "../../utils/types";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 const BurgerConstructor = (props) => {
-  const [state, setState] = useState(false);
+//   const [isOpen, setOpen] = useState(false);
 
-  let items = []
-for (let item in props){
-  items.push(props[item])
-}
+//   // const items = [];
+//   // for (const item of props.ingredients) {
+//   //   items.push(props.ingredients[item]);
+//   // }
 
-const showModal = () => {
-  setState(state === true ? false : true);
-  console.log(state)
-}
-
-
-
-    return(
-        <div className={Styles.right}>
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-      <ConstructorElement
-        type="top"
-        isLocked={true}
-        text="Краторная булка N-200i (верх)"
-        price={1255}
-        thumbnail={props[0].image}
-      />
-      <div className={`${Styles.ingredients} custom-scroll`}>
-         { items.map((item, index) =>(item.type !== 'bun' &&
-         <ConstructorElement key= {item._id}
-        text={item.name}
-        price={item.price}
-        thumbnail={item.image}
-      />
-         ))}
-      
-      </div>
-      <ConstructorElement
-        type="bottom"
-        isLocked={true}
-        text="Краторная булка N-200i (низ)"
-        price={1255}
-        thumbnail={props[0].image}
-      />
-    </div>
-    <div className={Styles.amount}>
-        <p className="text text_type_digits-medium">12342 <CurrencyIcon type="primary"/></p>
-        <Button type="primary" size="medium" onClick={showModal}>
-  Оформить заказ
-</Button>
-    </div>
-    {state && 
-    <Modal content={'order'}/>}
+//   const showModal = () => {
+//     setOpen(true)
+//   };
+// const closeModal = () => {
+//   setOpen(false)
+// }
+  return (
+    <div className={Styles.right}>
+      <div className={Styles.container}>
+        <div className={Styles.margin}>
+        <ConstructorElement
+         key={props.ingredients[0]._id}
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={1255}
+          thumbnail={props.ingredients[0].image}
+        />
         </div>
+        <div className={`${Styles.ingredients} custom-scroll`}>
+          {props.ingredients.map(
+            (item, index) =>
+              item.type !== "bun" && (
+                <div className={Styles.containerIngredient}>
+                  <div className={Styles.drag}>
+              <DragIcon  type="primary"/>
+              </div>
+                <ConstructorElement
+                  key={item._id}
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+              />
+              
+              </div>
+              )
+              
+          )}
+        </div>
+        <div className={Styles.margin}>
+        <ConstructorElement
+         key={props.ingredients[0]._id}
+          type="bottom"
+          isLocked={true}
+          text="Краторная булка N-200i (низ)"
+          price={1255}
+          thumbnail={props.ingredients[0].image}
+        />
+        </div>
+      </div>
+      <div className={Styles.amount}>
+        <p className="text text_type_digits-medium">
+          12342 <CurrencyIcon type="primary" />
+        </p>
+        <Button type="primary" size="medium">
+          Оформить заказ
+        </Button>
+      </div>
+      {/* {isOpen && <Modal onclose={closeModal} children={<OrderDetails />}/>} */}
+    </div>
+  );
+};
 
-    )
-
-}
 BurgerConstructor.propTypes = {
-  calories: PropTypes.number,
-carbohydrates: PropTypes.number,
-fat: PropTypes.number,
-image: PropTypes.string,
-image_large: PropTypes.string,
-image_mobile: PropTypes.string,
-name: PropTypes.string,
-price: PropTypes.number,
-proteins: PropTypes.number,
-type: PropTypes.string,
-__v: PropTypes.number,
-_id: PropTypes.string,
-}
+  ingredients: PropTypes.arrayOf(ingredientTypes)
+};
+
 export default React.memo(BurgerConstructor);

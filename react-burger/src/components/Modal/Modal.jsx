@@ -1,60 +1,60 @@
-import React from 'react';
-import Styles from './Modal.module.css';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from '../OrderDetails/OrderDetails';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
-import ReactDOM from 'react-dom';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import PropTypes from 'prop-types';
+import React from "react";
+import Styles from "./Modal.module.css";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import ReactDOM from "react-dom";
 
-const container = document.getElementById('root')
+import PropTypes from "prop-types";
+
+const container = document.getElementById("modals");
 
 const Modal = (props) => {
-
   const closeModal = () => {
-      document.getElementById('modalOverlay').remove()
-      document.getElementById('modal').remove()
+      return props.onClose()
   }
-
   React.useEffect(() => {
-    const onKeypress = e => {
-        if (e.keyCode === 27 && document.getElementById('modalOverlay') !== null){
-            closeModal()
+    const onClick = (e) => {
+     console.log(e.target.localName)
+       if(e.target.id === 'modalOverlay' || e.target.localName === 'path' || e.target.localName === 'svg'){
+            return props.onClose()
         }
     };
-    document.addEventListener('keydown', onKeypress);
+    document.addEventListener("click", onClick);
     return () => {
-      document.removeEventListener('keydown', onKeypress);
+      document.removeEventListener("click", onClick);
     };
   }, []);
 
-return(
-    ReactDOM.createPortal(
-        <div>
-       <ModalOverlay />
-            <div className={Styles.modal} id='modal' >
-      <div className={Styles.close}>
-      <CloseIcon type="primary" onClick={closeModal}/>
+
+  React.useEffect(() => {
+    const onKeypress = (e) => {
+      if (
+        e.key === "Escape"
+      ) {
+        console.log(e.key)
+        return props.onClose()
+      }
+    };
+    document.addEventListener("keydown", onKeypress);
+    return () => {
+      document.removeEventListener("keydown", onKeypress);
+    };
+  }, []);
+
+  return ReactDOM.createPortal(
+    <>
+      <ModalOverlay />
+      <div className={Styles.modal} id="modal">
+        <div className={Styles.close} >
+          <CloseIcon type="primary" onClick={closeModal}/>
+        </div>
+        {props.children}
       </div>
-      {props.content === 'ingredient' && 
-      <IngredientDetails {...props.data}/>
-      }
-      {props.content === 'order' && 
-      <OrderDetails />
-      }
-     
-        </div>
-        </div>
-          , container
-
-)
-)
-    }
-
-    Modal.propTypes = {
-        content: PropTypes.string,
-    }
+    </>,
+    container
+  );
+};
 
 
 
-export default Modal
+export default Modal;

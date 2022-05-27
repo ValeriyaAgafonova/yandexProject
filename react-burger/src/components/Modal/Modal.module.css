@@ -3,8 +3,7 @@
     height: 718px;
     border-radius: 50px;
     background-color: black;
-  position: absolute;
-  left: 30%;
+  position: fixed;
   top: 20%;
   z-index: 200;
   display: flex;
