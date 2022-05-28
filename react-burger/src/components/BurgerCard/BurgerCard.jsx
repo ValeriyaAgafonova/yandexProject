@@ -19,15 +19,15 @@ const BurgerCard = (props) => {
 
   return (
     <>
-    <li className="mb-10" onClick={showModalIngredient}>
-      <Counter count={1} size="default" />
-      <img src={props.item.image} alt={props.item.name}></img>
-      <p className="text text_type_digits-default mt-1">
-        {props.item.price} <CurrencyIcon type="primary" />
-      </p>
-      <p className="text text_type_main-default mt-2">{props.item.name}</p>
-    </li>
-    {isOpenIngredient && (
+      <li className="mb-10" onClick={showModalIngredient}>
+        <Counter count={1} size="default" />
+        <img src={props.item.image} alt={props.item.name}></img>
+        <p className="text text_type_digits-default mt-1">
+          {props.item.price} <CurrencyIcon type="primary" />
+        </p>
+        <p className="text text_type_main-default mt-2">{props.item.name}</p>
+      </li>
+      {isOpenIngredient && (
         <Modal
           onClose={closeModalIngredient}
           children={<IngredientDetails card={props.item} />}
