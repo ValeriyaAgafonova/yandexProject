@@ -18,6 +18,7 @@ const BurgerCard = (props) => {
   };
 
   return (
+    <>
     <li className="mb-10" onClick={showModalIngredient}>
       <Counter count={1} size="default" />
       <img src={props.item.image} alt={props.item.name}></img>
@@ -25,13 +26,14 @@ const BurgerCard = (props) => {
         {props.item.price} <CurrencyIcon type="primary" />
       </p>
       <p className="text text_type_main-default mt-2">{props.item.name}</p>
-      {isOpenIngredient && (
+    </li>
+    {isOpenIngredient && (
         <Modal
           onClose={closeModalIngredient}
           children={<IngredientDetails card={props.item} />}
         />
       )}
-    </li>
+    </>
   );
 };
 BurgerCard.propTypes = {
