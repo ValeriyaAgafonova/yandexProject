@@ -62,6 +62,6 @@ const BurgerIngredients = (props) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientTypes),
+  ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
 };
 export default React.memo(BurgerIngredients);

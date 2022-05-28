@@ -18,23 +18,12 @@ const BurgerConstructor = (props) => {
   const closeModalOrder = () => {
     setOpenOrder(false);
   };
-  React.useEffect(() => {
-    const onClick = (e) => {
-      if (e.target.localName === "button") {
-        return showModalOrder();
-      }
-    };
-    document.addEventListener("click", onClick);
-    return () => {
-      document.removeEventListener("click", onClick);
-    };
-  }, []);
+
   return (
     <div className={Styles.right}>
       <div className={Styles.container}>
         <div className={Styles.margin}>
           <ConstructorElement
-            key={props.ingredients[0]._id}
             type="top"
             isLocked={true}
             text="Краторная булка N-200i (верх)"
@@ -46,12 +35,11 @@ const BurgerConstructor = (props) => {
           {props.ingredients.map(
             (item, index) =>
               item.type !== "bun" && (
-                <div className={Styles.containerIngredient}>
+                <div className={Styles.containerIngredient} key={item._id}>
                   <div className={Styles.drag}>
                     <DragIcon type="primary" />
                   </div>
                   <ConstructorElement
-                    key={item._id}
                     text={item.name}
                     price={item.price}
                     thumbnail={item.image}
@@ -62,7 +50,6 @@ const BurgerConstructor = (props) => {
         </div>
         <div className={Styles.margin}>
           <ConstructorElement
-            key={props.ingredients[0]._id}
             type="bottom"
             isLocked={true}
             text="Краторная булка N-200i (низ)"
@@ -75,7 +62,7 @@ const BurgerConstructor = (props) => {
         <p className="text text_type_digits-medium">
           12342 <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" onClick={showModalOrder}>
           Оформить заказ
         </Button>
       </div>
@@ -87,7 +74,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientTypes),
+  ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
 };
 
 export default React.memo(BurgerConstructor);

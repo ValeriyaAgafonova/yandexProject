@@ -9,14 +9,13 @@ const container = document.getElementById("modals");
 
 const Modal = (props) => {
   const closeModal = () => {
+    console.log('close')
     return props.onClose();
   };
   React.useEffect(() => {
     const onClick = (e) => {
       if (
-        e.target.id === "modalOverlay" ||
-        e.target.localName === "path" ||
-        e.target.localName === "svg"
+        e.target.id === "modalOverlay" 
       ) {
         return props.onClose();
       }
@@ -43,8 +42,8 @@ const Modal = (props) => {
     <>
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
-        <div className={Styles.close}>
-          <CloseIcon type="primary" onClick={closeModal} />
+        <div className={Styles.close} >
+          <CloseIcon type="primary"  onClick={closeModal}/>
         </div>
         {props.children}
       </div>
@@ -53,6 +52,6 @@ const Modal = (props) => {
   );
 };
 Modal.propTypes = {
-  onClose: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };
 export default Modal;
