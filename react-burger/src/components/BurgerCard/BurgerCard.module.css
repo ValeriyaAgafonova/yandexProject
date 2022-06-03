@@ -1,0 +1,15 @@
+li{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+align-items: center;
+text-align: center;
+position: relative;
+cursor: pointer;
+}
+.price{
+   display: flex;
+   align-items: center;
+   column-gap: 8px;
+}

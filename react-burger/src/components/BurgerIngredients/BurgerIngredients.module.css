@@ -1,0 +1,21 @@
+.left{
+    width: 600px;
+}
+ul{
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+li{
+    width: 50%
+}
+.container{
+    height: 75vh;
+    overflow-x: hidden;
+}
+.head{
+    margin: 60px 0 20px;
+}
+.menu{
+    display: flex;
+}
