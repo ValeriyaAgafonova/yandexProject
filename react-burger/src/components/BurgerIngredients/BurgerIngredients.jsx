@@ -4,19 +4,24 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerCard from "../BurgerCard/BurgerCard";
 import PropTypes from "prop-types";
 import ingredientTypes from "../../utils/types";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../services/actions";
+import { useEffect } from 'react';
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
+const ingredients = useSelector(store => store.ingredients.itemsList)
+
   const typeBunArray = [];
   const typeMainArray = [];
   const typeSauceArray = [];
 
-  for (const item in props.ingredients) {
-    if (props.ingredients[item].type === "bun") {
-      typeBunArray.push(props.ingredients[item]);
-    } else if (props.ingredients[item].type === "main") {
-      typeMainArray.push(props.ingredients[item]);
+  for (const item in ingredients) {
+    if (ingredients[item].type === "bun") {
+      typeBunArray.push(ingredients[item]);
+    } else if (ingredients[item].type === "main") {
+      typeMainArray.push(ingredients[item]);
     } else {
-      typeSauceArray.push(props.ingredients[item]);
+      typeSauceArray.push(ingredients[item]);
     }
   }
   const [current, setCurrent] = React.useState("Булки");
@@ -61,7 +66,7 @@ const BurgerIngredients = (props) => {
   );
 };
 
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
+// };
 export default React.memo(BurgerIngredients);

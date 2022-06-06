@@ -6,17 +6,32 @@ import { useState } from "react";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import ingredientTypes from "../../utils/types";
-
+import { useDispatch, useSelector } from "react-redux";
+import { SET_OPEN_INGREDIENT, SET_CLOSE_INGREDIENT } from '../services/actions'
 const BurgerCard = (props) => {
   //состояние и функции открытия попапа с составом
-  const [isOpenIngredient, setOpenIngredient] = useState(false);
-  const showModalIngredient = () => {
-    setOpenIngredient(true);
+  // const [isOpenIngredient, setOpenIngredient] = useState(false);
+  // const showModalIngredient = () => {
+  //   setOpenIngredient(true);
+  // };
+  // const closeModalIngredient = () => {
+  //   setOpenIngredient(false);
+  // };
+
+  const dispatch = useDispatch();
+const  modalIngredientOpen = useSelector(store => store.ingredients.modalIngredientOpen)
+
+const showModalIngredient = () => {
+  console.log('show')
+    dispatch({type: SET_OPEN_INGREDIENT,
+      id: props.item._id
+    })
   };
   const closeModalIngredient = () => {
-    setOpenIngredient(false);
+    dispatch({type: SET_CLOSE_INGREDIENT,
+    id: props.item.id
+  });
   };
-
   return (
     <>
       <li className="mb-10" onClick={showModalIngredient}>
@@ -27,10 +42,10 @@ const BurgerCard = (props) => {
         </p>
         <p className="text text_type_main-default mt-2">{props.item.name}</p>
       </li>
-      {isOpenIngredient && (
+      {modalIngredientOpen && (
         <Modal
           onClose={closeModalIngredient}
-          children={<IngredientDetails card={props.item} />}
+          children={<IngredientDetails />}
         />
       )}
     </>
