@@ -4,20 +4,26 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { SET_CLOSE_INGREDIENT, SET_CLOSE_ORDER } from '../services/actions';
 
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
-  const closeModal = () => {
-    console.log('close')
-    return props.onClose();
+  const dispatch = useDispatch();
+  const closeModalIngredient = () => {
+    dispatch({type: SET_CLOSE_INGREDIENT
+  });
+  dispatch({type: SET_CLOSE_ORDER
+  });
   };
+
   React.useEffect(() => {
     const onClick = (e) => {
       if (
         e.target.id === "modalOverlay" 
       ) {
-        return props.onClose();
+        return closeModalIngredient();
       }
     };
     document.addEventListener("click", onClick);
@@ -29,7 +35,7 @@ const Modal = (props) => {
   React.useEffect(() => {
     const onKeypress = (e) => {
       if (e.key === "Escape") {
-        return props.onClose();
+        return closeModalIngredient();
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -43,7 +49,7 @@ const Modal = (props) => {
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
         <div className={Styles.close} >
-          <CloseIcon type="primary"  onClick={closeModal}/>
+          <CloseIcon type="primary"  onClick={closeModalIngredient}/>
         </div>
         {props.children}
       </div>
@@ -51,7 +57,7 @@ const Modal = (props) => {
     container
   );
 };
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
+// Modal.propTypes = {
+//   onClose: PropTypes.func.isRequired,
+// };
 export default Modal;

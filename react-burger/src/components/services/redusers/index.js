@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import {GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED, SET_OPEN_INGREDIENT, SET_CLOSE_INGREDIENT} from '../actions'
-import { store } from "../store";
+import {GET_ITEMS_REQUEST, GET_ITEMS_SUCCESS, GET_ITEMS_FAILED, SET_OPEN_INGREDIENT, SET_CLOSE_INGREDIENT, SET_CLOSE_ORDER, SET_OPEN_ORDER, SWITCH_MENU, DELETE_ITEM_FROM_ORDER, ADD_ITEM_TO_ORDER} from '../actions'
+
 
 
 const initialState = {
@@ -8,11 +8,21 @@ const initialState = {
     itemsRequest: false,
     itemsFailed: false,
 
-    ingredientsConstructor: [],
+    // ingredientsConstructor:
+      buns: null,
+      ingredients: [],
+   
     ingredientObject: null,
     orderObject: null,
     
-    modalIngredientOpen: false
+    modalIngredientOpen: false,
+    modalOrderOpen: false,
+
+    activeMenu: 'buns',
+    
+
+    totalPrice: 0
+    
 
 }
 export const IngredientsReducer = (state = initialState, action) => {
@@ -30,10 +40,27 @@ case GET_ITEMS_REQUEST: {
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
     case SET_OPEN_INGREDIENT: {
-      return { ...state,  modalIngredientOpen: true, ingredientObject: [...state.itemsList].filter(item => item._id === action.id)};
+      return { ...state,  modalIngredientOpen: true, ingredientObject: action.payload};
     }
     case SET_CLOSE_INGREDIENT: {
       return { ...state,  modalIngredientOpen: false, ingredientObject: null};
+    }
+    case SET_OPEN_ORDER: {
+      return { ...state,  modalOrderOpen: true};
+    }
+    case SET_CLOSE_ORDER: {
+      return { ...state,  modalOrderOpen: false};
+    }
+    case SWITCH_MENU:{
+      console.log(action.payload)
+      return {...state, activeMenu: action.payload}
+    }
+    case ADD_ITEM_TO_ORDER:{
+      console.log(action.payload)
+      return {...state, 
+        ingredients: [...state.ingredients, ...state.ingredients.push(action.payload)]
+        // ingredients:[...state.ingredients].push(action.payload),
+      }
     }
         default:
             return state;
@@ -42,7 +69,7 @@ case GET_ITEMS_REQUEST: {
 }
 export const ConstructorReducer = (state = initialState, action) => {
     switch (action.type){
-
+      
         default:
             return state;
         

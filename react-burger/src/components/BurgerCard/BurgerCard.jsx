@@ -2,52 +2,55 @@ import React from "react";
 import styles from "./BurgerCard.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import ingredientTypes from "../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
-import { SET_OPEN_INGREDIENT, SET_CLOSE_INGREDIENT } from '../services/actions'
+import { useDispatch } from "react-redux";
+import { SET_OPEN_INGREDIENT, ADD_ITEM_TO_ORDER} from '../services/actions'
+import { useDrag } from 'react-dnd';
+
 const BurgerCard = (props) => {
-  //состояние и функции открытия попапа с составом
-  // const [isOpenIngredient, setOpenIngredient] = useState(false);
-  // const showModalIngredient = () => {
-  //   setOpenIngredient(true);
-  // };
-  // const closeModalIngredient = () => {
-  //   setOpenIngredient(false);
-  // };
-
+ 
   const dispatch = useDispatch();
-const  modalIngredientOpen = useSelector(store => store.ingredients.modalIngredientOpen)
 
-const showModalIngredient = () => {
-  console.log('show')
+  const showModalIngredient = () => {
     dispatch({type: SET_OPEN_INGREDIENT,
-      id: props.item._id
+      payload: props.item
     })
   };
-  const closeModalIngredient = () => {
-    dispatch({type: SET_CLOSE_INGREDIENT,
-    id: props.item.id
-  });
-  };
+  const [{ opacity }, ref] = useDrag({
+    type: 'card',
+    item: props.item._id ,
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult()
+      // console.log(dropResult)
+      if (item && dropResult) {
+        console.log(`You dropped ${props.item.name} into ${dropResult.name}!`)
+        if(item.type !== 'bun'){
+          console.log(props.item)
+          dispatch({type: ADD_ITEM_TO_ORDER,
+            payload: props.item
+          })
+        }
+        
+      }
+    },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+      handlerId: monitor.getHandlerId(),
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  }) 
+  
   return (
     <>
-      <li className="mb-10" onClick={showModalIngredient}>
+      <li className="mb-10" onClick={showModalIngredient} ref={ref} style={{opacity}}>
         <Counter count={1} size="default" />
-        <img src={props.item.image} alt={props.item.name}></img>
+        <img src={props.item.image} alt={props.item.name} ></img>
         <p className="text text_type_digits-default mt-1">
           {props.item.price} <CurrencyIcon type="primary" />
         </p>
         <p className="text text_type_main-default mt-2">{props.item.name}</p>
       </li>
-      {modalIngredientOpen && (
-        <Modal
-          onClose={closeModalIngredient}
-          children={<IngredientDetails />}
-        />
-      )}
+     
     </>
   );
 };

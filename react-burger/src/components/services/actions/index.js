@@ -6,6 +6,14 @@ export const GET_ITEMS_FAILED = 'GET_ITEMS_FAILED';
 export const SET_OPEN_INGREDIENT = 'SET_OPEN_INGREDIENT';
 export const SET_CLOSE_INGREDIENT = 'SET_CLOSE_INGREDIENT';
 
+export const SET_CLOSE_ORDER = 'SET_CLOSE_ORDER';
+export const SET_OPEN_ORDER = 'SET_OPEN_ORDER';
+
+export const SWITCH_MENU = 'SWITCH_MENU';
+
+export const ADD_ITEM_TO_ORDER = 'ADD_ITEM_TO_ORDER';
+export const DELETE_ITEM_FROM_ORDER = 'DELETE_ITEM_FROM_ORDER';
+
 // export const GET_ITEMS_INGREDIENTS = 'GET_ITEMS_INGREDIENTS';
 const url = "https://norma.nomoreparties.space/api/ingredients";
 
