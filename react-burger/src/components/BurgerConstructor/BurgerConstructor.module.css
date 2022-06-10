@@ -63,3 +63,6 @@
     display: flex;
     align-items: center;
 }
+.constructMargin{
+    margin-left: 50px;
+}

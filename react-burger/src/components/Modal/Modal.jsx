@@ -5,24 +5,21 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { SET_CLOSE_INGREDIENT, SET_CLOSE_ORDER } from '../services/actions';
+import { SET_CLOSE_INGREDIENT, SET_CLOSE_ORDER } from "../services/actions";
 
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
+  console.log(props)
   const dispatch = useDispatch();
   const closeModalIngredient = () => {
-    dispatch({type: SET_CLOSE_INGREDIENT
-  });
-  dispatch({type: SET_CLOSE_ORDER
-  });
+    dispatch({ type: SET_CLOSE_INGREDIENT });
+    dispatch({ type: SET_CLOSE_ORDER });
   };
 
   React.useEffect(() => {
     const onClick = (e) => {
-      if (
-        e.target.id === "modalOverlay" 
-      ) {
+      if (e.target.id === "modalOverlay") {
         return closeModalIngredient();
       }
     };
@@ -48,8 +45,8 @@ const Modal = (props) => {
     <>
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
-        <div className={Styles.close} >
-          <CloseIcon type="primary"  onClick={closeModalIngredient}/>
+        <div className={Styles.close}>
+          <CloseIcon type="primary" onClick={closeModalIngredient} />
         </div>
         {props.children}
       </div>
