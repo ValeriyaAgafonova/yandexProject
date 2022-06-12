@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import ingredientTypes from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
 
-const BurgerIngredients = () => {
+const BurgerIngredients = (props) => {
   const activeMenu = useSelector((store) => store.ingredients.activeMenu);
   const dispatch = useDispatch();
   const ingredients = useSelector((store) => store.ingredients.itemsList);
@@ -43,13 +43,13 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = React.useState("buns");
 
   const bunItems = typeBunArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
   ));
   const mainItems = typeMainArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
   ));
   const sauceItems = typeSauceArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
   ));
   return (
     <div className={Styles.left}>
@@ -102,6 +102,6 @@ const BurgerIngredients = () => {
 };
 
 // BurgerIngredients.propTypes = {
-//   ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
+
 // };
 export default React.memo(BurgerIngredients);

@@ -10,41 +10,59 @@ import {
   ADD_BUN_TO_ORDER,
   COUNT_TOTAL_PRICE,
   COUNT_NUMBER_ITEMS,
-} from "../services/actions";
+} from "../../services/actions";
 import { useDrag } from "react-dnd";
 import { v4 as uuid } from "uuid";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 const BurgerCard = (props) => {
 
-// const [counter, setCounter] = useState(0);
+  const [isOpenIngredient, setOpenIngredient] = useState(false);
+  const showModalIngredient = () => {
+    setOpenIngredient(true);
+  };
+  const closeModalIngredient = () => {
+    setOpenIngredient(false);
+  };
+
+  let [counter, setCounter] = useState(0);
+
+const plusCounterIngredient = () => {
+  setCounter(counter = counter +1)
+}
+const plusCounterBun = () => {
+  setCounter(2)
+}
+const minusCounterIngredient = () => {
+  setCounter(counter = counter - 1)
+}
+const minusCounterBun = () => {
+  setCounter(0)
+}
 
   const dispatch = useDispatch();
 
-  const showModalIngredient = () => {
-    dispatch({ type: SET_OPEN_INGREDIENT, payload: props.item });
-  };
   const [{ opacity }, ref] = useDrag({
     type: "card",
     item: props.item,
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
-
       if (item && dropResult) {
         if (item.type !== "bun") {
-          console.log(props.item);
-          props.item.key = uuid();
-          props.item.counter += 1;
+          console.log('if')
+          plusCounterIngredient()
           dispatch({
             type: ADD_ITEM_TO_ORDER,
             payload: { ...item, key: uuid() },
           });
+  
         } else {
           console.log("else");
           dispatch({ type: ADD_BUN_TO_ORDER, payload: props.item });
-          props.item.counter = 2;
+          plusCounterBun()
         }
-        dispatch({ type: COUNT_TOTAL_PRICE, payload: props.item });
-        dispatch({ type: COUNT_NUMBER_ITEMS, payload: props.item });
+        // dispatch({ type: COUNT_TOTAL_PRICE, payload: props.item });
       }
     },
     collect: (monitor) => ({
@@ -62,19 +80,25 @@ const BurgerCard = (props) => {
         ref={ref}
         style={{ opacity }}
       >
-        {props.item.counter !== 0 && <Counter count={props.item.counter} size="default" />}
+        {counter !== 0 && <Counter count={counter} size="default" />}
         <img src={props.item.image} alt={props.item.name}></img>
         <p className="text text_type_digits-default mt-1">
           {props.item.price} <CurrencyIcon type="primary" />
         </p>
         <p className="text text_type_main-default mt-2">{props.item.name}</p>
       </li>
+      {isOpenIngredient && (
+        <Modal
+          onClose={closeModalIngredient}
+          children={<IngredientDetails card={props.item} />}
+        />
+      )}
     </>
   );
 };
 
  
 BurgerCard.propTypes = {
-  item: ingredientTypes,
+  item: ingredientTypes.isRequired,
 };
 export default BurgerCard;

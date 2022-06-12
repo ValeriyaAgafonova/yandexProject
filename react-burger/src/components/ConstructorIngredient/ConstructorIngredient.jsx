@@ -2,7 +2,7 @@ import React from "react";
 import Styles from "./ConstructorIngredient.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DELETE_ITEM_FROM_CONSTRUCTOR, COUNT_TOTAL_PRICE } from "../services/actions";
+import { DELETE_ITEM_FROM_CONSTRUCTOR, COUNT_TOTAL_PRICE } from "../../services/actions";
 import { useDispatch } from "react-redux";
 import ingredientTypes from "../../utils/types";
 
@@ -16,6 +16,7 @@ const ConstructorIngredient = ({item}) => {
       dispatch({type: COUNT_TOTAL_PRICE,
     payload: item
 })
+
   };
 
   return (
@@ -35,6 +36,6 @@ const ConstructorIngredient = ({item}) => {
   );
 };
 ConstructorIngredient.propTypes = {
-    item: ingredientTypes,
+    item: ingredientTypes.isRequired,
   };
 export default ConstructorIngredient;

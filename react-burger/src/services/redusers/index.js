@@ -3,10 +3,6 @@ import {
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
   GET_ITEMS_FAILED,
-  SET_OPEN_INGREDIENT,
-  SET_CLOSE_INGREDIENT,
-  SET_CLOSE_ORDER,
-  SET_OPEN_ORDER,
   ADD_ITEM_TO_ORDER,
   ADD_BUN_TO_ORDER,
   COUNT_TOTAL_PRICE,
@@ -37,6 +33,7 @@ const initialState = {
   orderNumber: 225322,
   orderRequest: false,
   orderFailed: false,
+
 };
 
 export const IngredientsReducer = (state = initialState, action) => {
@@ -58,23 +55,9 @@ export const IngredientsReducer = (state = initialState, action) => {
     case GET_ITEMS_FAILED: {
       return { ...state, itemsFailed: true, itemsRequest: false };
     }
-    case SET_OPEN_INGREDIENT: {
-      return {
-        ...state,
-        modalIngredientOpen: true,
-        ingredientObject: action.payload,
-      };
-    }
-    case SET_CLOSE_INGREDIENT: {
-      return { ...state, modalIngredientOpen: false, ingredientObject: null };
-    }
-    case SET_OPEN_ORDER: {
-      return { ...state, modalOrderOpen: true };
-    }
-    case SET_CLOSE_ORDER: {
-      return { ...state, modalOrderOpen: false };
-    }
+
     case ADD_ITEM_TO_ORDER: {
+      console.log(action.payload)
       return {
         ...state,
         ingredients: [...state.ingredients, action.payload],
@@ -85,6 +68,7 @@ export const IngredientsReducer = (state = initialState, action) => {
       return { ...state, buns: action.payload };
     }
     case COUNT_TOTAL_PRICE: {
+      console.log(state.ingredients.reduce((acc, item) => acc + item.price, 0))
       return {
         ...state,
         totalPrice:
@@ -123,7 +107,7 @@ export const IngredientsReducer = (state = initialState, action) => {
         ),
       };
     }
-
+    
     default:
       return state;
   }

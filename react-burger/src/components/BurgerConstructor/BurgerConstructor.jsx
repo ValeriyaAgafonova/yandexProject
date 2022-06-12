@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import Styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -10,25 +10,32 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   DELETE_ITEM_FROM_CONSTRUCTOR,
   SET_OPEN_ORDER,
-} from "../services/actions";
+} from "../../services/actions";
 import { useDrop } from "react-dnd";
-import { getOrder } from "../services/actions";
+import { getOrder } from "../../services/actions";
 import { v4 as uuid } from "uuid";
 import ConstructorIngredient from '../ConstructorIngredient/ConstructorIngredient';
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
-
-
-const BurgerConstructor = () => {
+const BurgerConstructor = (props) => {
   const totalPrice = useSelector((state) => state.ingredients.totalPrice);
   const ids = useSelector((state) => state.ingredients.ingredientsId);
   const ingredients = useSelector((state) => state.ingredients.ingredients);
   const buns = useSelector((state) => state.ingredients.buns);
   const dispatch = useDispatch();
 
+    const [isOpenOrder, setOpenOrder] = useState(false);
   const showModalOrder = () => {
-    dispatch({ type: SET_OPEN_ORDER });
+    setOpenOrder(true);
     dispatch(getOrder(ids));
   };
+  const closeModalOrder = () => {
+    setOpenOrder(false);
+  };
+
+
+  const [buttonDisabled, setButton] = useState(true)
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "card",
@@ -51,7 +58,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={buns.name}
+              text={`${buns.name}(верх)`}
               price={buns.price}
               thumbnail={buns.image}
             />
@@ -80,7 +87,7 @@ const BurgerConstructor = () => {
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={buns.name}
+              text={`${buns.name}(низ)`}
               price={buns.price}
               thumbnail={buns.image}
             />
@@ -91,16 +98,20 @@ const BurgerConstructor = () => {
         <p className="text text_type_digits-medium">
           {totalPrice} <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="medium" onClick={showModalOrder}>
+        <Button type="primary" size="medium" onClick={showModalOrder} disabled={buttonDisabled}>
           Оформить заказ
         </Button>
       </div>
+      {isOpenOrder && (
+        <Modal onClose={closeModalOrder} children={<OrderDetails />} />
+      )}
     </div>
   );
 };
 
 // BurgerConstructor.propTypes = {
-//   ingredients: PropTypes.arrayOf(ingredientTypes).isRequired,
+
+//
 // };
 
-export default React.memo(BurgerConstructor);
+export default BurgerConstructor;
