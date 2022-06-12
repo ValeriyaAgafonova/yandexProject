@@ -6,14 +6,13 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItems } from "../../services/actions";
-
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
 
   const dispatch = useDispatch();
+  
   const {
     itemsList,
     itemsRequest,

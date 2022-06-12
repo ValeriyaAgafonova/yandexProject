@@ -1,29 +1,39 @@
-import React from "react";
+import { React, useRef, useEffect, useState } from "react";
 import Styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerCard from "../BurgerCard/BurgerCard";
 import PropTypes from "prop-types";
 import ingredientTypes from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 const BurgerIngredients = (props) => {
   const activeMenu = useSelector((store) => store.ingredients.activeMenu);
   const dispatch = useDispatch();
   const ingredients = useSelector((store) => store.ingredients.itemsList);
 
- 
-  // let observer = new IntersectionObserver((entries, options) => {
-  // entries.forEach(entry => {
-  //   // console.log(entry.target.id, entry.target.getBoundingClientRect().y)
-  //   let href = `${entry.target.getAttribute('id')}`;
-  //   if (entry.isIntersecting  &&  entry.target.getBoundingClientRect().y < 270) {
-  //   console.log(href, entry.target.getBoundingClientRect().y)
-  //   setCurrent(href)
-  //   }
-  // })
-  // }, {threshold: 0.5})
+  const [current, setCurrent] = useState("buns");
 
-  // document.querySelectorAll('h3').forEach(elem => {observer.observe(elem)})
+  const { ref: ref1, inView: inViewBuns } = useInView({
+    threshold: 0,
+  });
+  const { ref: ref2, inView: inViewSauses } = useInView({
+    threshold: 0,
+  });
+  const { ref: ref3, inView: inViewMain } = useInView({
+    threshold: 0,
+  });
+
+  // console.log(inView)
+  useEffect(() => {
+    if (inViewBuns) {
+      setCurrent("buns");
+    } else if (inViewSauses) {
+      setCurrent("sauses");
+    } else if (inViewMain) {
+      setCurrent("main");
+    }
+  }, [inViewSauses, inViewBuns, inViewMain]);
 
   const typeBunArray = [];
   const typeMainArray = [];
@@ -40,16 +50,33 @@ const BurgerIngredients = (props) => {
       typeSauceArray.push(ingredients[item]);
     }
   }
-  const [current, setCurrent] = React.useState("buns");
 
   const bunItems = typeBunArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
+    <BurgerCard
+      key={item._id}
+      item={item}
+      recountWithBuns={props.recountWithBuns}
+      recountWithItems={props.recountWithItems}
+      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
+    />
   ));
   const mainItems = typeMainArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
+    <BurgerCard
+      key={item._id}
+      item={item}
+      recountWithBuns={props.recountWithBuns}
+      recountWithItems={props.recountWithItems}
+      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
+    />
   ));
   const sauceItems = typeSauceArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} recountWithBuns={props.recountWithBuns} recountWithItems={props.recountWithItems} recountWithItemsAndBuns = {props.recountWithItemsAndBuns}/>
+    <BurgerCard
+      key={item._id}
+      item={item}
+      recountWithBuns={props.recountWithBuns}
+      recountWithItems={props.recountWithItems}
+      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
+    />
   ));
   return (
     <div className={Styles.left}>
@@ -78,20 +105,25 @@ const BurgerIngredients = (props) => {
         </a>
       </div>
       <div className={`${Styles.container} custom-scroll`}>
-        <section>
-          <h3 className="text text_type_main-medium mt-10 is-active" id="buns">
+        <section inview={inViewBuns.toString()}>
+          <h3
+            ref={ref1}
+            className="text text_type_main-medium mt-10 is-active"
+            id="buns"
+          >
             Булки
           </h3>
           <ul>{bunItems}</ul>
         </section>
-        <section>
-          <h3 className="text text_type_main-medium" id="sauses">
+        <section inview={inViewSauses.toString()}>
+          <h3 ref={ref2} className="text text_type_main-medium" id="sauses">
             Соусы
           </h3>
           <ul>{sauceItems}</ul>
         </section>
-        <section>
-          <h3 className="text text_type_main-medium" id="main">
+
+        <section inview={inViewMain.toString()}>
+          <h3 ref={ref3} className="text text_type_main-medium" id="main">
             Начинки
           </h3>
           <ul>{mainItems}</ul>
@@ -104,4 +136,4 @@ const BurgerIngredients = (props) => {
 // BurgerIngredients.propTypes = {
 
 // };
-export default React.memo(BurgerIngredients);
+export default BurgerIngredients;
