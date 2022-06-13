@@ -1,16 +1,13 @@
-import { React, useRef, useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerCard from "../BurgerCard/BurgerCard";
-import PropTypes from "prop-types";
-import ingredientTypes from "../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
-const BurgerIngredients = (props) => {
-  const activeMenu = useSelector((store) => store.ingredients.activeMenu);
-  const dispatch = useDispatch();
-  const ingredients = useSelector((store) => store.ingredients.itemsList);
+const BurgerIngredients = () => {
+  const itemsList = useSelector((store) => store.ingredients.itemsList);
 
   const [current, setCurrent] = useState("buns");
 
@@ -24,7 +21,6 @@ const BurgerIngredients = (props) => {
     threshold: 0,
   });
 
-  // console.log(inView)
   useEffect(() => {
     if (inViewBuns) {
       setCurrent("buns");
@@ -39,44 +35,24 @@ const BurgerIngredients = (props) => {
   const typeMainArray = [];
   const typeSauceArray = [];
 
-  for (const item in ingredients) {
-    ingredients[item].counter = 0;
-    // item.counter = 0;
-    if (ingredients[item].type === "bun") {
-      typeBunArray.push(ingredients[item]);
-    } else if (ingredients[item].type === "main") {
-      typeMainArray.push(ingredients[item]);
+  for (const item in itemsList) {
+    if (itemsList[item].type === "bun") {
+      typeBunArray.push(itemsList[item]);
+    } else if (itemsList[item].type === "main") {
+      typeMainArray.push(itemsList[item]);
     } else {
-      typeSauceArray.push(ingredients[item]);
+      typeSauceArray.push(itemsList[item]);
     }
   }
 
   const bunItems = typeBunArray.map((item, index) => (
-    <BurgerCard
-      key={item._id}
-      item={item}
-      recountWithBuns={props.recountWithBuns}
-      recountWithItems={props.recountWithItems}
-      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
-    />
+    <BurgerCard key={item._id} item={item} />
   ));
   const mainItems = typeMainArray.map((item, index) => (
-    <BurgerCard
-      key={item._id}
-      item={item}
-      recountWithBuns={props.recountWithBuns}
-      recountWithItems={props.recountWithItems}
-      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
-    />
+    <BurgerCard key={item._id} item={item} />
   ));
   const sauceItems = typeSauceArray.map((item, index) => (
-    <BurgerCard
-      key={item._id}
-      item={item}
-      recountWithBuns={props.recountWithBuns}
-      recountWithItems={props.recountWithItems}
-      recountWithItemsAndBuns={props.recountWithItemsAndBuns}
-    />
+    <BurgerCard key={item._id} item={item} />
   ));
   return (
     <div className={Styles.left}>
@@ -133,7 +109,4 @@ const BurgerIngredients = (props) => {
   );
 };
 
-// BurgerIngredients.propTypes = {
-
-// };
 export default BurgerIngredients;

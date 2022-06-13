@@ -6,11 +6,11 @@ import {
   ADD_ITEM_TO_ORDER,
   ADD_BUN_TO_ORDER,
   COUNT_TOTAL_PRICE,
-  COUNT_NUMBER_ITEMS,
   GET_ORDER_REQUEST,
   GET_ORDER_SUCCESS,
   GET_ORDER_FAILED,
   DELETE_ITEM_FROM_CONSTRUCTOR,
+  REWRITE_INGREDIENTS
 } from "../actions";
 
 const initialState = {
@@ -18,9 +18,10 @@ const initialState = {
   itemsRequest: false,
   itemsFailed: false,
 
-  // ingredientsConstructor:
+ ingredientsConstructor:{
   buns: null,
   ingredients: [],
+ },
   ingredientsId: [],
   ingredientObject: null,
   orderObject: null,
@@ -33,7 +34,7 @@ const initialState = {
   orderNumber: 225322,
   orderRequest: false,
   orderFailed: false,
-
+ 
 };
 
 export const IngredientsReducer = (state = initialState, action) => {
@@ -48,8 +49,8 @@ export const IngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         itemsFailed: false,
-        itemsList: action.itemsList,
-        itemsRequest: false,
+        itemsList: [...action.itemsList],
+        itemsRequest: false
       };
     }
     case GET_ITEMS_FAILED: {
@@ -60,12 +61,19 @@ export const IngredientsReducer = (state = initialState, action) => {
       console.log(action.payload)
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload],
+        ingredientsConstructor: {...state.ingredientsConstructor, 
+        ingredients: [...state.ingredientsConstructor.ingredients, action.payload],
+        },
         ingredientsId: [...state.ingredientsId, action.payload._id],
       };
     }
     case ADD_BUN_TO_ORDER: {
-      return { ...state, buns: action.payload };
+      return { ...state,
+        ingredientsConstructor: {...state.ingredientsConstructor, 
+          buns: action.payload
+          },
+          ingredientsId: [...state.ingredientsId, action.payload._id],
+         };
     }
     case COUNT_TOTAL_PRICE: {
       console.log(state.ingredients.reduce((acc, item) => acc + item.price, 0))
@@ -99,14 +107,25 @@ export const IngredientsReducer = (state = initialState, action) => {
     case DELETE_ITEM_FROM_CONSTRUCTOR: {
       return {
         ...state,
-        ingredients: [...state.ingredients].filter(
+        ingredientsConstructor: {...state.ingredientsConstructor,
+        ingredients: [...state.ingredientsConstructor.ingredients].filter(
           (item) => item.key !== action.payload
-        ),
+        )},
         ingredientsId: [...state.ingredientsId].filter(
           (item) => item._id !== action.payload._id
         ),
       };
     }
+    case REWRITE_INGREDIENTS: 
+    const copy = [...state.ingredientsConstructor.ingredients]
+    copy.splice(action.dragIndex, 1)
+    copy.splice(action.hoverIndex, 0, action.dragCard)
+      return {
+        ...state,
+        ingredientsConstructor: {...state.ingredientsConstructor,
+        ingredients: copy
+      }
+      };
     
     default:
       return state;

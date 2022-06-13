@@ -8,8 +8,6 @@ import PropTypes from "prop-types";
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
-  console.log(props);
-
   const closeModalIngredient = () => {
     return props.onClose();
   };

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import Styles from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
@@ -10,14 +10,11 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-
   const dispatch = useDispatch();
-  
-  const {
-    itemsList,
-    itemsRequest,
-    itemsFailed,
-  } = useSelector((store) => store.ingredients);
+
+  const { itemsList, itemsRequest, itemsFailed } = useSelector(
+    (store) => store.ingredients
+  );
 
   useEffect(() => {
     dispatch(getItems());

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useMemo } from "react";
 import Styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,25 +7,50 @@ import PropTypes from "prop-types";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientTypes from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  DELETE_ITEM_FROM_CONSTRUCTOR,
-  SET_OPEN_ORDER,
-} from "../../services/actions";
+import { REWRITE_INGREDIENTS } from "../../services/actions";
 import { useDrop } from "react-dnd";
 import { getOrder } from "../../services/actions";
-import { v4 as uuid } from "uuid";
-import ConstructorIngredient from '../ConstructorIngredient/ConstructorIngredient';
+
+import ConstructorIngredient from "../ConstructorIngredient/ConstructorIngredient";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 
-const BurgerConstructor = (props) => {
-  const totalPrice = useSelector((state) => state.ingredients.totalPrice);
+const BurgerConstructor = () => {
   const ids = useSelector((state) => state.ingredients.ingredientsId);
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const buns = useSelector((state) => state.ingredients.buns);
+  const ingredients = useSelector(
+    (state) => state.ingredients.ingredientsConstructor.ingredients
+  );
+  const buns = useSelector(
+    (state) => state.ingredients.ingredientsConstructor.buns
+  );
   const dispatch = useDispatch();
 
-    const [isOpenOrder, setOpenOrder] = useState(false);
+  const [isDisabled, setDisabled] = useState(true);
+
+  const countTotalPrice = useMemo(() => {
+    let totalPrice = 0;
+
+    if (ingredients.length > 0 && Boolean(buns) === false) {
+      setDisabled(true);
+      return (totalPrice = ingredients.reduce(
+        (acc, item) => acc + item.price,
+        0
+      ));
+    } else if (ingredients.length > 0 && Boolean(buns) === true) {
+      setDisabled(false);
+      return (totalPrice =
+        ingredients.reduce((acc, item) => acc + item.price, 0) +
+        buns.price * 2);
+    } else if (Boolean(buns) === true && ingredients.length === 0) {
+      setDisabled(true);
+      return (totalPrice = buns.price * 2);
+    } else {
+      setDisabled(true);
+      return totalPrice;
+    }
+  }, [ingredients, buns]);
+
+  const [isOpenOrder, setOpenOrder] = useState(false);
   const showModalOrder = () => {
     setOpenOrder(true);
     dispatch(getOrder(ids));
@@ -33,9 +58,6 @@ const BurgerConstructor = (props) => {
   const closeModalOrder = () => {
     setOpenOrder(false);
   };
-
-
-  const [buttonDisabled, setButton] = useState(true)
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "card",
@@ -45,6 +67,17 @@ const BurgerConstructor = (props) => {
       canDrop: monitor.canDrop(),
     }),
   }));
+
+  const moveCard = (dragIndex, hoverIndex) => {
+    const dragCard = ingredients[dragIndex];
+
+    dispatch({
+      type: REWRITE_INGREDIENTS,
+      dragIndex: dragIndex,
+      hoverIndex: hoverIndex,
+      dragCard: dragCard,
+    });
+  };
 
   return (
     <div className={Styles.right} ref={drop}>
@@ -70,12 +103,15 @@ const BurgerConstructor = (props) => {
               <p>Выберите начинку</p>
             </div>
           ) : (
-            ingredients.map(
-              (item, index) =>
-                item.type !== "bun" && (
-                  <ConstructorIngredient item={item} key={item.key}/>
-                )
-            )
+            ingredients.map((item, index) => (
+              <ConstructorIngredient
+                moveCard={moveCard}
+                itemCard={item}
+                key={item.key}
+                id={item.key}
+                index={ingredients.findIndex((el) => el.key === item.key)}
+              />
+            ))
           )}
         </div>
         <div className={Styles.margin}>
@@ -96,9 +132,14 @@ const BurgerConstructor = (props) => {
       </div>
       <div className={Styles.amount}>
         <p className="text text_type_digits-medium">
-          {totalPrice} <CurrencyIcon type="primary" />
+          {countTotalPrice} <CurrencyIcon type="primary" />
         </p>
-        <Button type="primary" size="medium" onClick={showModalOrder} disabled={buttonDisabled}>
+        <Button
+          type="primary"
+          size="medium"
+          onClick={showModalOrder}
+          disabled={isDisabled}
+        >
           Оформить заказ
         </Button>
       </div>
@@ -108,10 +149,5 @@ const BurgerConstructor = (props) => {
     </div>
   );
 };
-
-// BurgerConstructor.propTypes = {
-
-//
-// };
 
 export default BurgerConstructor;
