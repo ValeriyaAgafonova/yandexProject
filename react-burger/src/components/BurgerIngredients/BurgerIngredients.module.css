@@ -12,6 +12,7 @@ li{
 .container{
     height: 75vh;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 .head{
     margin: 60px 0 20px;

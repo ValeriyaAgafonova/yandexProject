@@ -1,10 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Styles from "./OrderDetails.module.css";
 
 const OrderDetails = () => {
+  const { orderNumber, orderRequest, orderFailed } = useSelector(
+    (state) => state.ingredients
+  );
   return (
     <div className={Styles.details}>
-      <p className="text text_type_digits-large">122432</p>
+      {orderRequest && "Загрузка..."}
+      {orderFailed && "Произошла ошибка"}
+      {!orderRequest && !orderFailed && orderNumber && (
+        <p className="text text_type_digits-large">{orderNumber}</p>
+      )}
       <p className="text text_type_main-default">идентификатор заказа</p>
       <img
         className={Styles.done}

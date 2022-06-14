@@ -35,3 +35,34 @@
 .margin{
     margin-left: 50px;
 }
+.construct {
+    
+    padding: 16px 24px;
+    display: inline-block;
+    border-radius: var(--common-border-radius-s);
+    background: var(--background-element);
+    width: 488px;
+  
+    height: 48px;
+    font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 24px;
+    color: #F2F2F3;
+    flex-grow: 1;
+}
+
+.constructorTop {
+    border-radius: var(--top-constructor-item-border-radius);
+}
+
+.constructorBottom {
+    border-radius: var(--bottom-constructor-item-border-radius);
+}
+
+.constructor-element__row {
+    display: flex;
+    align-items: center;
+}
+.constructMargin{
+    margin-left: 50px;
+}
