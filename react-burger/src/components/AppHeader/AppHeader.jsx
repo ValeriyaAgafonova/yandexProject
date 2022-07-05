@@ -4,31 +4,44 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ListIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from "react-router-dom";
 
 const AppHeader = () => {
   return (
     <header>
       <div className={Styles.left}>
-        <a href="#">
-          {" "}
-          <BurgerIcon type="primary" /> <p>Конструктор</p>
-        </a>
-        <a href="#">
-          {" "}
+      <NavLink
+        to="/" exact
+        className={`${Styles.inactive} ${Styles.flex}  text text_type_main-default`}
+        activeClassName={Styles.active}
+      >
+        <BurgerIcon type="primary" />{" "}
+         <p> Конструктор</p>
+        </NavLink>
+
+
+        <NavLink
+          to="/profile/orders" exact
+          className={`${Styles.inactive} ${Styles.flex}  text text_type_main-default`}
+          activeClassName={Styles.active}
+        >
           <ListIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive">
-            {" "}
-            Лента заказов
-          </p>
-        </a>
+          <p> Лента заказов</p>
+        </NavLink>
       </div>
       <Logo />
-      <a href="#" className={Styles.right}>
-        <ProfileIcon type="secondary" />
-        <p className="text text_type_main-default text_color_inactive">
-          Личный кабинет
-        </p>
-      </a>
+
+      <div className={Styles.right}>
+        <NavLink
+          to="/profile" exact
+          className={`${Styles.inactive} ${Styles.flex} text text_type_main-default`}
+          activeClassName={Styles.active}
+        >
+          <ProfileIcon type="secondary" />
+
+          <p>Личный кабинет</p>
+        </NavLink>
+      </div>
     </header>
   );
 };

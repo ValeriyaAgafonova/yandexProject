@@ -14,8 +14,10 @@ import { getOrder } from "../../services/actions";
 import ConstructorIngredient from "../ConstructorIngredient/ConstructorIngredient";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import { Redirect } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const userSuccess = useSelector(state => state.auth.userSuccess)
   const ids = useSelector((state) => state.ingredients.ingredientsId);
   const ingredients = useSelector(
     (state) => state.ingredients.ingredientsConstructor.ingredients
@@ -51,9 +53,20 @@ const BurgerConstructor = () => {
   }, [ingredients, buns]);
 
   const [isOpenOrder, setOpenOrder] = useState(false);
+  
   const showModalOrder = () => {
-    setOpenOrder(true);
-    dispatch(getOrder(ids));
+    
+    if(userSuccess){
+      setOpenOrder(true);
+      dispatch(getOrder(ids));
+    }
+   else{
+      <Redirect
+    to={{
+      pathname: '/login'
+    }}
+  />  
+   }
   };
   const closeModalOrder = () => {
     setOpenOrder(false);

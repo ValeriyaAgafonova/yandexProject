@@ -1,0 +1,26 @@
+.loginContainer{
+    margin-top: 200px;
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  gap: 24px;
+}
+.formContainer{
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  gap: 24px;
+}
+.input__container{
+    width: 100%;
+}
+.input_size_default{
+    width: 100%;
+}
+p{
+    margin: 0;
+}

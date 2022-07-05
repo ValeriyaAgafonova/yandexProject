@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ADD_ITEM_TO_ORDER, ADD_BUN_TO_ORDER } from "../../services/actions";
 import { useDrag } from "react-dnd";
 import { v4 as uuid } from "uuid";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { useMemo } from "react";
 
 const BurgerCard = (props) => {
@@ -32,14 +30,6 @@ const BurgerCard = (props) => {
 
     return counter;
   }, [ingredients, buns]);
-
-  const [isOpenIngredient, setOpenIngredient] = useState(false);
-  const showModalIngredient = () => {
-    setOpenIngredient(true);
-  };
-  const closeModalIngredient = () => {
-    setOpenIngredient(false);
-  };
 
   const dispatch = useDispatch();
 
@@ -70,7 +60,6 @@ const BurgerCard = (props) => {
     <>
       <li
         className="mb-10"
-        onClick={showModalIngredient}
         ref={ref}
         style={{ opacity }}
       >
@@ -84,12 +73,6 @@ const BurgerCard = (props) => {
         </p>
         <p className="text text_type_main-default mt-2">{props.item.name}</p>
       </li>
-      {isOpenIngredient && (
-        <Modal
-          onClose={closeModalIngredient}
-          children={<IngredientDetails card={props.item} />}
-        />
-      )}
     </>
   );
 };

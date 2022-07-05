@@ -2,11 +2,13 @@ import { React, useEffect, useState } from "react";
 import Styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerCard from "../BurgerCard/BurgerCard";
-
 import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const BurgerIngredients = () => {
+  let location = useLocation();
   const itemsList = useSelector((store) => store.ingredients.itemsList);
 
   const [current, setCurrent] = useState("buns");
@@ -46,13 +48,38 @@ const BurgerIngredients = () => {
   }
 
   const bunItems = typeBunArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <Link
+    className={Styles.list}
+    key={item._id}
+    to={{
+      pathname: `/ingredient/${item._id}`,
+
+      state: { background: location }
+    }}
+  ><BurgerCard key={item._id} item={item} /></Link>
   ));
   const mainItems = typeMainArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <Link
+    className={Styles.list}
+    key={item._id}
+    to={{
+      pathname: `/ingredient/${item._id}`,
+
+      state: { background: location }
+    }}
+  ><BurgerCard key={item._id} item={item} /></Link>
   ));
   const sauceItems = typeSauceArray.map((item, index) => (
-    <BurgerCard key={item._id} item={item} />
+    <Link
+    key={item._id}
+    className={Styles.list}
+    to={{
+      pathname: `/ingredient/${item._id}`,
+     
+      state: { background: location }
+    }}
+  >
+    <BurgerCard key={item._id} item={item} /></Link>
   ));
   return (
     <div className={Styles.left}>

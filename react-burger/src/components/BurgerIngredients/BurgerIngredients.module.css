@@ -5,9 +5,10 @@ ul{
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 li{
-    width: 50%
+    width: 100%
 }
 .container{
     height: 75vh;
@@ -19,4 +20,13 @@ li{
 }
 .menu{
     display: flex;
+}
+.list{
+    text-decoration: none;
+    color: white;
+    width: 50%;
+}
+a{
+    text-decoration: none;
+  
 }
