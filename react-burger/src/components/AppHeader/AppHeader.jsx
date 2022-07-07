@@ -10,18 +10,18 @@ const AppHeader = () => {
   return (
     <header>
       <div className={Styles.left}>
-      <NavLink
-        to="/" exact
-        className={`${Styles.inactive} ${Styles.flex}  text text_type_main-default`}
-        activeClassName={Styles.active}
-      >
-        <BurgerIcon type="primary" />{" "}
-         <p> Конструктор</p>
+        <NavLink
+          to="/"
+          exact
+          className={`${Styles.inactive} ${Styles.flex}  text text_type_main-default`}
+          activeClassName={Styles.active}
+        >
+          <BurgerIcon type="primary" /> <p> Конструктор</p>
         </NavLink>
 
-
         <NavLink
-          to="/profile/orders" exact
+          to="/profile/orders"
+          exact
           className={`${Styles.inactive} ${Styles.flex}  text text_type_main-default`}
           activeClassName={Styles.active}
         >
@@ -29,11 +29,14 @@ const AppHeader = () => {
           <p> Лента заказов</p>
         </NavLink>
       </div>
-      <Logo />
+      <NavLink to="/" exact>
+        <Logo />
+      </NavLink>
 
       <div className={Styles.right}>
         <NavLink
-          to="/profile" exact
+          to="/profile"
+          exact
           className={`${Styles.inactive} ${Styles.flex} text text_type_main-default`}
           activeClassName={Styles.active}
         >

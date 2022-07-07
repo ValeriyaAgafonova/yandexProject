@@ -4,27 +4,15 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
+
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
 
-  let history = useHistory();
-  let { id } = useParams();
-  const back = e => {
-    e.stopPropagation();
-    history.goBack();
-  };
-
-
-  const closeModalIngredient = () => {
-    return back();
-  };
-
   React.useEffect(() => {
     const onClick = (e) => {
       if (e.target.id === "modalOverlay") {
-        return back(e);
+        return props.onClose(e);
       }
     };
     document.addEventListener("click", onClick);
@@ -36,7 +24,7 @@ const Modal = (props) => {
   React.useEffect(() => {
     const onKeypress = (e) => {
       if (e.key === "Escape") {
-        return back(e);
+        return props.onClose(e);
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -50,7 +38,7 @@ const Modal = (props) => {
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
         <div className={Styles.close}>
-          <CloseIcon type="primary" onClick={back} />
+          <CloseIcon type="primary" onClick={props.onClose} />
         </div>
         {props.children}
       </div>
@@ -58,7 +46,7 @@ const Modal = (props) => {
     container
   );
 };
-// Modal.propTypes = {
-//   onClose: PropTypes.func.isRequired,
-// };
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 export default Modal;

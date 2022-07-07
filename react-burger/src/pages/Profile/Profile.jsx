@@ -11,17 +11,16 @@ import {
   Link,
   Switch,
   Route,
-  useParams,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSaveChanges } from "../../services/actions";
+import { getSaveChanges } from "../../services/actions/auth";
 const Profile = () => {
   const userName = useSelector((state) => state.auth.userName);
   const userEmail = useSelector((state) => state.auth.userEmail);
 
-  const {saveSuccess, saveAnswer } = useSelector((state) => state.auth);
-const dispatch = useDispatch()
-  let { path, url } = useRouteMatch();
+  const { saveAnswer } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { path, url } = useRouteMatch();
 
   const [current, setCurrent] = useState("Профиль");
 
@@ -40,17 +39,15 @@ const dispatch = useDispatch()
   const onIconClick = () => {
     inputRef.current.focus();
   };
-  function saveChanges(e){
-    e.preventDefault()
-    getSaveChanges(form, dispatch)
-    }
-const resetChanges = (e) =>{
-e.preventDefault()
-setValue({ ...form,  email: userEmail,
-    password: "",
-    name: userName});
+  function saveChanges(e) {
+    e.preventDefault();
+    getSaveChanges(form, dispatch);
+  }
+  const resetChanges = (e) => {
+    e.preventDefault();
+    setValue({ ...form, email: userEmail, password: "", name: userName });
     buttonSave.current.style.opacity = 0;
-}
+  };
   return (
     <div className={styles.profileContainer}>
       <div className={styles.categories}>

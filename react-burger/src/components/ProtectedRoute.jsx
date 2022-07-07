@@ -1,27 +1,30 @@
-import { useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { Redirect, Route, useLocation } from "react-router-dom";
 
-
-const ProtectedRoute = ({ children, path }) =>{
-const userName = useSelector(state => state.auth.userName);
-console.log(userName)
-if(!userName){
-    console.log('if', path)
-   return (
-    <Redirect
-    to={{
-      pathname: path
-    }}
-  />
-   ) 
-}
-else{
+const ProtectedRoute = ({ children, onlyForAuth = false, ...rest }) => {
+  const location = useLocation();
+  const userName = useSelector(state => state.auth.userName);
+ 
+  if (userName && onlyForAuth) {
+      const { from } = location.state || { from: { pathname: '/'}}
     return (
-           children
+      <Route {...rest}>
+<Redirect to={from} />
+      </Route>
+    );
+  } 
+  if(!userName && !onlyForAuth){
+    return (
+        <Route {...rest}>
+  <Redirect to={{pathname: '/login', state: {from: location}}} />
+        </Route>
+      );
+  }
+  return(
+    <Route {...rest}>
+    {children}
+          </Route>
+  )
+};
 
-    )
-}
-
-}
-
-export default ProtectedRoute
+export default ProtectedRoute;

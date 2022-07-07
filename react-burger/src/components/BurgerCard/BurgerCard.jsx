@@ -58,11 +58,7 @@ const BurgerCard = (props) => {
 
   return (
     <>
-      <li
-        className="mb-10"
-        ref={ref}
-        style={{ opacity }}
-      >
+      <li className="mb-10" ref={ref} style={{ opacity }}>
         {ingredientCounter !== 0 && (
           <Counter count={ingredientCounter} size="default" />
         )}

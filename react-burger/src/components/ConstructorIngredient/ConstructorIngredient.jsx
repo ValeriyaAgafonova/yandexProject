@@ -2,20 +2,16 @@ import React from "react";
 import Styles from "./ConstructorIngredient.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../services/actions";
+import { DELETE_ITEM_FROM_CONSTRUCTOR } from "../../services/actions/index";
 import { useDispatch } from "react-redux";
 import ingredientTypes from "../../utils/types";
 import { useDrop, useDrag } from "react-dnd";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
-import { hover } from "@testing-library/user-event/dist/hover";
 import PropTypes from "prop-types";
 
 const ConstructorIngredient = ({ itemCard, moveCard, id, index }) => {
   const ref = useRef(null);
-  const ingredients = useSelector(
-    (state) => state.ingredients.ingredientsConstructor.ingredients
-  );
 
   const dispatch = useDispatch();
   const deleteItem = () => {

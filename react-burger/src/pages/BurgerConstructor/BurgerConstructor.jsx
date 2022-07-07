@@ -3,21 +3,17 @@ import Styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ingredientTypes from "../../utils/types";
 import { useDispatch, useSelector } from "react-redux";
-import { REWRITE_INGREDIENTS } from "../../services/actions";
+import { REWRITE_INGREDIENTS } from "../../services/actions/index";
 import { useDrop } from "react-dnd";
-import { getOrder } from "../../services/actions";
-
-import ConstructorIngredient from "../ConstructorIngredient/ConstructorIngredient";
-import Modal from "../Modal/Modal";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import { Redirect } from "react-router-dom";
+import { getOrder } from "../../services/actions/index";
+import ConstructorIngredient from "../../components/ConstructorIngredient/ConstructorIngredient";
+import Modal from "../../components/Modal/Modal";
+import OrderDetails from "../../components/OrderDetails/OrderDetails";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
-  const userSuccess = useSelector(state => state.auth.userSuccess)
+  const userName = useSelector((state) => state.auth.userName);
   const ids = useSelector((state) => state.ingredients.ingredientsId);
   const ingredients = useSelector(
     (state) => state.ingredients.ingredientsConstructor.ingredients
@@ -26,7 +22,7 @@ const BurgerConstructor = () => {
     (state) => state.ingredients.ingredientsConstructor.buns
   );
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [isDisabled, setDisabled] = useState(true);
 
   const countTotalPrice = useMemo(() => {
@@ -53,21 +49,16 @@ const BurgerConstructor = () => {
   }, [ingredients, buns]);
 
   const [isOpenOrder, setOpenOrder] = useState(false);
-  
+
   const showModalOrder = () => {
-    
-    if(userSuccess){
-      setOpenOrder(true);
-      dispatch(getOrder(ids));
+    if (!userName) {
+      history.push("/login");
+      return;
     }
-   else{
-      <Redirect
-    to={{
-      pathname: '/login'
-    }}
-  />  
-   }
+    setOpenOrder(true);
+    dispatch(getOrder(ids));
   };
+
   const closeModalOrder = () => {
     setOpenOrder(false);
   };
