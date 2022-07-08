@@ -55,8 +55,9 @@ const BurgerConstructor = () => {
       history.push("/login");
       return;
     }
-    setOpenOrder(true);
+
     dispatch(getOrder(ids));
+    setOpenOrder(true);
   };
 
   const closeModalOrder = () => {
@@ -138,6 +139,7 @@ const BurgerConstructor = () => {
         <p className="text text_type_digits-medium">
           {countTotalPrice} <CurrencyIcon type="primary" />
         </p>
+
         <Button
           type="primary"
           size="medium"

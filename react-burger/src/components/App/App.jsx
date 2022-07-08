@@ -20,6 +20,7 @@ import Modal from "../Modal/Modal";
 import { useLocation } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute";
 import { checkAuth } from "../../services/actions/auth";
+
 function App() {
   const history = useHistory();
   const back = (e) => {

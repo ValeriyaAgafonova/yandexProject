@@ -1,4 +1,4 @@
-import { React, useCallback } from "react";
+import { React } from "react";
 import styles from "./Login.module.css";
 import { useState, useRef } from "react";
 import { PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,10 +9,10 @@ import {
 import { Link } from "react-router-dom";
 import { getLogin } from "../../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 const Login = () => {
-  const { loginAnswer, loginSuccess } = useSelector((state) => state.auth);
+  const { loginAnswer } = useSelector((state) => state.auth);
+
   const inputRef = useRef(null);
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -23,18 +23,10 @@ const Login = () => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
   const dispatch = useDispatch();
+
   function login(e) {
     e.preventDefault();
     getLogin(form, dispatch);
-  }
-  if (loginSuccess) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
   }
 
   return (

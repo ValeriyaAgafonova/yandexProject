@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
-
   React.useEffect(() => {
     const onClick = (e) => {
       if (e.target.id === "modalOverlay") {

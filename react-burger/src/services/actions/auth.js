@@ -30,7 +30,7 @@ export const CHECK_COMPLETE = "CHECK_COMPLETE";
 
 export const checkAuth = (dispatch) => {
 if(getCookie('accessToken')){
-   userRequest(dispatch)
+  getUser(dispatch)
  dispatch({type: CHECK_COMPLETE})
 }
 else{
