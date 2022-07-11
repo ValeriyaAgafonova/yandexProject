@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 export const GET_ITEMS_REQUEST = "GET_ITEMS_REQUEST";
 export const GET_ITEMS_SUCCESS = "GET_ITEMS_SUCCESS";
 export const GET_ITEMS_FAILED = "GET_ITEMS_FAILED";
@@ -15,14 +13,17 @@ export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
 export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
 
-export const REWRITE_INGREDIENTS = 'REWRITE_INGREDIENTS';
+export const REWRITE_INGREDIENTS = "REWRITE_INGREDIENTS";
 
-export const PLUS_INGREDIENT_COUNTER = 'PLUS_INGREDIENT_COUNTER';
+export const PLUS_INGREDIENT_COUNTER = "PLUS_INGREDIENT_COUNTER";
 export const DELETE_ITEM_FROM_CONSTRUCTOR = "DELETE_ITEM_FROM_CONSTRUCTOR";
-// export const GET_ITEMS_INGREDIENTS = 'GET_ITEMS_INGREDIENTS';
-const url = "https://norma.nomoreparties.space/api/";
 
-const checkResponse = (response) => {
+
+export const url = "https://norma.nomoreparties.space/api/";
+
+//проверка респонса
+export const checkResponse = (response) => {
+  console.log(response);
   if (response.ok) {
     return response.json();
   } else {
@@ -30,17 +31,7 @@ const checkResponse = (response) => {
   }
 };
 
-// const getIngredients = () => {
-//   setState({ ...state, hasError: false, isLoading: true });
-//   fetch(url)
-//     .then(checkResponse)
-//     .then(function (data) {
-//       setState({ ...state, data: data.data, isLoading: false });
-//     })
-//     .catch((e) => {
-//       setState({ ...state, hasError: true, isLoading: false });
-//     });
-// };
+//получение списка ингредиентов
 const getItemsRequest = () => {
   return fetch(`${url}ingredients`).then(checkResponse);
 };
@@ -68,7 +59,7 @@ export function getItems() {
       });
   };
 }
-
+//получение номера заказа
 const getOrderRequest = (ids) => {
   return fetch(`${url}orders`, {
     method: "POST",
@@ -81,6 +72,7 @@ const getOrderRequest = (ids) => {
     }),
   }).then(checkResponse);
 };
+
 export const getOrder = (ids) => {
   return function (dispatch) {
     dispatch({
@@ -104,10 +96,3 @@ export const getOrder = (ids) => {
       });
   };
 };
-//   export function getIngredients() {
-//       return function(dispatch){
-//         dispatch({
-//             type: GET_ITEMS_INGREDIENTS
-//           })
-//       }
-//   }

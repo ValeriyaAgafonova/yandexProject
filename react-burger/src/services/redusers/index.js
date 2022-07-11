@@ -1,3 +1,4 @@
+import { AuthReducer } from './auth';
 import { combineReducers } from "redux";
 import {
   GET_ITEMS_REQUEST,
@@ -35,7 +36,9 @@ const initialState = {
   orderRequest: false,
   orderFailed: false,
  
+  
 };
+
 
 export const IngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -126,19 +129,13 @@ export const IngredientsReducer = (state = initialState, action) => {
         ingredients: copy
       }
       };
-    
-    default:
-      return state;
-  }
-};
-export const ConstructorReducer = (state = initialState, action) => {
-  switch (action.type) {
+     
     default:
       return state;
   }
 };
 
 export const rootReducer = combineReducers({
-  constructor: ConstructorReducer,
+  auth: AuthReducer,
   ingredients: IngredientsReducer,
 });

@@ -8,14 +8,10 @@ import PropTypes from "prop-types";
 const container = document.getElementById("modals");
 
 const Modal = (props) => {
-  const closeModalIngredient = () => {
-    return props.onClose();
-  };
-
   React.useEffect(() => {
     const onClick = (e) => {
       if (e.target.id === "modalOverlay") {
-        return props.onClose();
+        return props.onClose(e);
       }
     };
     document.addEventListener("click", onClick);
@@ -27,7 +23,7 @@ const Modal = (props) => {
   React.useEffect(() => {
     const onKeypress = (e) => {
       if (e.key === "Escape") {
-        return props.onClose();
+        return props.onClose(e);
       }
     };
     document.addEventListener("keydown", onKeypress);
@@ -41,7 +37,7 @@ const Modal = (props) => {
       <ModalOverlay />
       <div className={Styles.modal} id="modal">
         <div className={Styles.close}>
-          <CloseIcon type="primary" onClick={closeModalIngredient} />
+          <CloseIcon type="primary" onClick={props.onClose} />
         </div>
         {props.children}
       </div>

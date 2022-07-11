@@ -4,11 +4,14 @@
     justify-content: center;
     align-items: center;
 row-gap: 30px;
+margin-top: 50px;
 }
 .head{
-    position: absolute;
+    /* position: absolute;
     left: 50px;
-    top: 50px;
+    top: 50px; */
+    position: static;
+   
 }
 .table{
     display: grid;

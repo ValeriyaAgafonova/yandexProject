@@ -1,0 +1,21 @@
+.profileContainer{
+    margin-top: 200px;
+    display: flex;
+    gap: 100px;
+   
+
+}
+.categories,
+.changeContainer{
+    display: flex;
+    flex-direction: column;
+}
+.changeContainer{
+    width: 50vh;
+    gap: 30px;
+}
+.changeButtons{
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+}
